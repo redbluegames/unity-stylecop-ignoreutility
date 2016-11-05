@@ -1,0 +1,1 @@
+# Unity - StyleCop Ignore Utility
