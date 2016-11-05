@@ -1,3 +1,4 @@
+# Unity folders
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -26,11 +27,6 @@ Thumbs.db.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
-
-# Continuous Integration Files
-build.log
-unit-test-results.xml
-automation-config.cfg
 
 # StyleCop local cache files
 *.Cache
