@@ -95,7 +95,9 @@
   <Parsers>
     <Parser ParserId="StyleCop.CSharp.CsParser">
       <ParserSettings>
-        <CollectionProperty Name="GeneratedFileFilters" />
+        <CollectionProperty Name="GeneratedFileFilters">
+          <Value>[^a-z ]IgnoredScriptWithErrors.cs</Value>
+        </CollectionProperty>
       </ParserSettings>
     </Parser>
   </Parsers>
