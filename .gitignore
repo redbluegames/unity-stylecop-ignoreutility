@@ -31,3 +31,6 @@ sysinfo.txt
 # StyleCop local cache files
 *.Cache
 *.Cache.meta
+
+# Builds
+*.unitypackage
