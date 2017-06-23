@@ -19,26 +19,47 @@
 
         /* Methods ============================================================================================================ */
 
+        /// <summary>
+        /// Sets a reference to the Utility in order to communicate with it
+        /// </summary>
+        /// <param name="utility">The StyleCopIgnoreUtility</param>
         public void SetUtility(StyleCopIgnoreUtility utility)
         {
             this.styleCopIgnoreUtility = utility;
         }
 
-        public void ReadPreferences(Preferences settings)
+        /// <summary>
+        /// Reads and applies user preferences to customize the View
+        /// </summary>
+        /// <param name="preferences">User preferences to read from</param>
+        public void ReadPreferences(Preferences preferences)
         {
-            this.position = settings.WindowPosition;
+            this.position = preferences.WindowPosition;
         }
 
-        public void WritePreferences(Preferences settings)
+        /// <summary>
+        /// Saves user preferences to customize the View
+        /// </summary>
+        /// <param name="preferences">User preferences to save to</param>
+        public void WritePreferences(Preferences preferences)
         {
             this.styleCopIgnoreUtility.UserPreferences.WindowPosition = this.position;
         }
 
+        /// <summary>
+        /// Gets all of the files that are currently selected ('checked') in the View
+        /// </summary>
+        /// <returns>Returns a List of strings containing complete, full file paths (including the filename and extension)</returns>
         public List<UniversalPath> GetSelectedFiles()
         {
             return this.fileTreeInfo.GetSelectedFiles();
         }
 
+        /// <summary>
+        /// Initialize the View with the provided saved data so that the View can reflect the data's current state
+        /// </summary>
+        /// <returns>Returns true if the operation suceeded, otherwise false</returns>
+        /// <param name="saveData">Save data.</param>
         public bool InitializeWithData(StyleCopIgnoreUtilityData saveData)
         {
             var filesToSetIgnored = new List<UniversalPath>(saveData.IgnoredFilePaths);
@@ -235,6 +256,7 @@
                     file.IsSelected = EditorGUILayout.ToggleLeft(file.Label, file.IsSelected, labelStyle);
                     EditorGUILayout.EndHorizontal();
                 }
+
                 this.indentLevel -= 2;
             }
 
