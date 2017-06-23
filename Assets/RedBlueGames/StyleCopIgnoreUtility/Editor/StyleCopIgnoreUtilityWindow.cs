@@ -10,50 +10,36 @@
     /// </summary>
     internal class StyleCopIgnoreUtilityWindow : EditorWindow, IStyleCopIgnoreUtilityView
     {
-        //// Consts =============================================================================================================
-
-        //// Fields =============================================================================================================
+        /* Consts, Fields ====================================================================================================== */
 
         private StyleCopIgnoreUtility styleCopIgnoreUtility;
         private FileTreeView fileTreeInfo;
         private Vector2 treeViewScrollPosition;
         private int indentLevel;
 
-        //// Constructors =======================================================================================================
+        /* Methods ============================================================================================================ */
 
-        //// Properties =========================================================================================================
-
-        //// Methods ============================================================================================================
-
-        void OnEnable()
-        {
-            this.titleContent = new GUIContent(StyleCopIgnoreUtility.WindowName);
-            this.minSize = new Vector2(275, 300);
-
-            this.fileTreeInfo = new FileTreeView((UniversalPath)Application.dataPath);
-        }
-
-        void IStyleCopIgnoreUtilityView.SetUtility(StyleCopIgnoreUtility utility)
+        public void SetUtility(StyleCopIgnoreUtility utility)
         {
             this.styleCopIgnoreUtility = utility;
         }
 
-        void IStyleCopIgnoreUtilityView.ReadPreferences(Preferences settings)
+        public void ReadPreferences(Preferences settings)
         {
             this.position = settings.WindowPosition;
         }
 
-        void IStyleCopIgnoreUtilityView.WritePreferences(Preferences settings)
+        public void WritePreferences(Preferences settings)
         {
             this.styleCopIgnoreUtility.UserPreferences.WindowPosition = this.position;
         }
 
-        List<UniversalPath> IStyleCopIgnoreUtilityView.GetSelectedFiles()
+        public List<UniversalPath> GetSelectedFiles()
         {
             return this.fileTreeInfo.GetSelectedFiles();
         }
 
-        bool IStyleCopIgnoreUtilityView.InitializeWithData(StyleCopIgnoreUtilityData saveData)
+        public bool InitializeWithData(StyleCopIgnoreUtilityData saveData)
         {
             var filesToSetIgnored = new List<UniversalPath>(saveData.IgnoredFilePaths);
             var result = this.fileTreeInfo.SetSelectedFiles(ref filesToSetIgnored);
@@ -75,8 +61,8 @@
                 }
 
                 var errorMessage = "The saved list of files contains names of files that no longer seem to exist.  Would you " +
-                    "like to remove these nonexistent saved file names now?" + Environment.NewLine + Environment.NewLine +
-                    removedFilePaths;
+                                   "like to remove these nonexistent saved file names now?" + Environment.NewLine + Environment.NewLine +
+                                   removedFilePaths;
 
                 if (EditorUtility.DisplayDialog(StyleCopIgnoreUtility.UtilityName, errorMessage, "Yes", "No"))
                 {
@@ -97,6 +83,14 @@
             window.Show();
 
             StyleCopIgnoreUtility.CreateWithView(window);
+        }
+
+        private void OnEnable()
+        {
+            this.titleContent = new GUIContent(StyleCopIgnoreUtility.WindowName);
+            this.minSize = new Vector2(275, 300);
+
+            this.fileTreeInfo = new FileTreeView((UniversalPath)Application.dataPath);
         }
 
         private void OnDestroy()
@@ -158,9 +152,9 @@
             if (GUILayout.Button("...", GUILayout.Width(30)))
             {
                 var newFilePath = EditorUtility.OpenFilePanel(
-                    "StyleCop Settings File...",
-                    string.Empty,
-                    StyleCopIgnoreUtility.StyleCopFileExtension);
+                                      "StyleCop Settings File...",
+                                      string.Empty,
+                                      StyleCopIgnoreUtility.StyleCopFileExtension);
 
                 if (!string.IsNullOrEmpty(newFilePath))
                 {
@@ -182,7 +176,8 @@
         private void OnGUIFileTree()
         {
             EditorGUILayout.BeginVertical();
-            this.treeViewScrollPosition = EditorGUILayout.BeginScrollView(this.treeViewScrollPosition, EditorStyles.textArea);
+            var treeViewStyle = new GUIStyle(GUI.skin.FindStyle("CurveEditorBackground"));
+            this.treeViewScrollPosition = EditorGUILayout.BeginScrollView(this.treeViewScrollPosition, treeViewStyle);
 
             EditorGUIUtility.SetIconSize(Vector2.one * 16);
             this.indentLevel--;
@@ -199,20 +194,11 @@
 
             EditorGUILayout.BeginHorizontal();
 
-            ////===========  Toggle Foldout (simpler)  ======================
-            /*EditorGUI.showMixedValue = directoryView.IsPartiallyIgnored;
-            GUILayout.Space( indent * 20 );
-            EditorGUILayout.ToggleLeft( "", directoryView.IsIgnored, GUILayout.Width( 12.0f ) );
-            EditorGUI.showMixedValue = false;
-            directoryView.isExpanded = EditorGUILayout.Foldout( directoryView.isExpanded, directoryView.Label );*/
-            ////====================================================
-
             ////===========  Foldout Toggle (change label/field width + wacky indent/spacing  ======================
             this.ManualGUIIndent();
 
             GUIStyle g = new GUIStyle(EditorStyles.foldout);
             g.fixedWidth = 16.0f;
-            ////g.imagePosition = ImagePosition.ImageOnly;
 
             var previousFieldWidth = EditorGUIUtility.fieldWidth;
             EditorGUIUtility.fieldWidth = 16.0f;
@@ -240,7 +226,6 @@
                     this.OnGUIDirectory(subDirectory);
                 }
 
-                ////this.indentLevel++;
                 this.indentLevel += 2;
                 foreach (var file in directoryView.Files)
                 {
@@ -250,7 +235,6 @@
                     file.IsSelected = EditorGUILayout.ToggleLeft(file.Label, file.IsSelected, labelStyle);
                     EditorGUILayout.EndHorizontal();
                 }
-                ////this.indentLevel--;
                 this.indentLevel -= 2;
             }
 
@@ -280,7 +264,7 @@
             EditorGUILayout.BeginHorizontal();
 
             bool isClearButtonDisabled = !this.styleCopIgnoreUtility.CachedIsStyleCopSettingsFileValid ||
-                XMLTool.IgnoreListStorageMode == XMLTool.IgnoreListType.GeneratedFileFilter;
+                                         XMLTool.IgnoreListStorageMode == XMLTool.IgnoreListType.GeneratedFileFilter;
             EditorGUI.BeginDisabledGroup(isClearButtonDisabled);
             if (GUILayout.Button("Clear StyleCop"))
             {
