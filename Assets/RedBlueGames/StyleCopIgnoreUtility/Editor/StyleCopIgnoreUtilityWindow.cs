@@ -21,17 +21,17 @@
 
         //// Constructors =======================================================================================================
 
-        private StyleCopIgnoreUtilityWindow()
+        //// Properties =========================================================================================================
+
+        //// Methods ============================================================================================================
+
+        void OnEnable()
         {
             this.titleContent = new GUIContent(StyleCopIgnoreUtility.WindowName);
             this.minSize = new Vector2(275, 300);
 
             this.fileTreeInfo = new FileTreeView((UniversalPath)Application.dataPath);
         }
-
-        //// Properties =========================================================================================================
-
-        //// Methods ============================================================================================================
 
         void IStyleCopIgnoreUtilityView.SetUtility(StyleCopIgnoreUtility utility)
         {
