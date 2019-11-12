@@ -14,7 +14,7 @@ If you haven't heard of StyleCop I'd recommend a couple of our blog posts on the
 
 ## Installation
 
-First you'll need to make sure you have StyleCop installed. See [How to Get StyleCop Installed for a Unity Project](urlhere) for instructions.
+First you'll need to make sure you have StyleCop installed. See [How to Get StyleCop Installed for a Unity Project](https://blog.redbluegames.com/how-to-set-up-stylecop-in-unity-b3ca908211d9) for instructions.
 
 - After installing StyleCop you'll need to download and install the latest .unitypackage release from this repository ([link](https://github.com/redbluegames/unity-stylecop-ignoreutility/releases/download/v1.0/StyleCopIgnoreUtility.unitypackage)).
 - In _Unity Editor_ go to **Assets** -> **Import Package** -> **Custom Package...**
